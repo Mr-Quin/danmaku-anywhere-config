@@ -1,0 +1,1 @@
+# danmaku-anywhere-config
