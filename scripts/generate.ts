@@ -25,7 +25,7 @@ for (const file of integrationPolicyFiles) {
 const config = {
   time: new Date().getTime(),
   configs: {
-    integration: integrationPolicyConfig.toSorted((a, b) => a.name.localeCompare(b.name)),
+    integration: integrationPolicyConfig.sort((a, b) => a.name.localeCompare(b.name)),
   },
 }
 
