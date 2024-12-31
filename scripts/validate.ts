@@ -8,15 +8,19 @@ const dirname = path.dirname(url.fileURLToPath(import.meta.url))
 const configsDir = path.resolve(dirname, '../configs')
 const integrationDir = path.resolve(configsDir, 'integration')
 
-const integrationPolicyFiles = await glob(`${integrationDir}/**/*.json`, { absolute: true })
+const integrationPolicyFiles = await glob(`${integrationDir}/**/*.json`, {
+  absolute: true,
+})
 
-const integrationValidation = await Promise.all(integrationPolicyFiles.map(async (file) => {
-  const content = await fs.readFile(file, 'utf-8')
-  return {
-    file,
-    validation: integrationPolicySchema.safeParse(JSON.parse(content)),
-  }
-}))
+const integrationValidation = await Promise.all(
+  integrationPolicyFiles.map(async (file) => {
+    const content = await fs.readFile(file, 'utf-8')
+    return {
+      file,
+      validation: integrationPolicySchema.safeParse(JSON.parse(content)),
+    }
+  })
+)
 
 for (const result of integrationValidation) {
   if (!result.validation.success) {

@@ -3,35 +3,27 @@
   "author": "Mr-Quin",
   "policy": {
     "episode": {
-      "regex": [
-        "\\d+"
-      ],
+      "regex": ["\\d+"],
       "selector": [
         "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/a[2]",
         "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/span[3]"
       ]
     },
     "episodeTitle": {
-      "regex": [
-        ".+"
-      ],
+      "regex": [".+"],
       "selector": [
         "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/a[1]"
       ]
     },
     "season": {
-      "regex": [
-        ".+"
-      ],
+      "regex": [".+"],
       "selector": [
         "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/a[1]",
         "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/span[1]"
       ]
     },
     "title": {
-      "regex": [
-        ".+"
-      ],
+      "regex": [".+"],
       "selector": [
         "//*[@id=\"plex\"]//a[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]"
       ]

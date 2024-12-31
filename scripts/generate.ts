@@ -10,17 +10,18 @@ type ConfigIntegrationPolicy = IntegrationPolicy & {
   hash: string
 }
 
-const getGlobFiles = async (pattern: string) => {
-  const files = await glob(pattern)
-  // Replace backslashes with forward slashes for if some lunatic uses Windows (me)
-  return files.map((file) => path.normalize(file).replace(/\\/g, '/'))
-}
-
 // Read all config files and merge them into one json file, then upload it to the server
 const dirname = path.dirname(url.fileURLToPath(import.meta.url))
+const rootDir = path.resolve(dirname, '../')
 const outputDir = path.resolve(dirname, '../dist')
 const configsDir = path.resolve(dirname, '../configs')
 const integrationDir = path.resolve(configsDir, 'integration')
+
+const getGlobFiles = async (pattern: string) => {
+  const files = await glob(pattern, { cwd: rootDir })
+  // Replace backslashes with forward slashes for if some lunatic uses Windows (me)
+  return files.map((file) => path.normalize(file).replace(/\\/g, '/'))
+}
 
 const integrationPolicyFiles = await getGlobFiles(`${integrationDir}/**/*.json`)
 
@@ -43,15 +44,19 @@ for (const file of integrationPolicyFiles) {
 const config = {
   time: new Date().getTime(),
   configs: {
-    integration: integrationPolicyConfig.sort((a, b) => a.name.localeCompare(b.name)),
+    integration: integrationPolicyConfig.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    ),
   },
 }
 
 // Write the merged config to the output directory, creating it if it doesn't exist
 await fs.mkdir(outputDir, { recursive: true })
-await fs.writeFile(path.resolve(outputDir, 'config.json'), JSON.stringify(config, null, 2))
+await fs.writeFile(
+  path.resolve(outputDir, 'config.json'),
+  JSON.stringify(config, null, 2)
+)
 console.log('Merged config written to', path.resolve(outputDir, 'config.json'))
-
 
 // Copy the configs to the output directory
 // Create configs directory if it doesn't exist

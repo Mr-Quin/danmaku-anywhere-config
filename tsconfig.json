@@ -2,10 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "useDefineForClassFields": true,
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -20,7 +17,5 @@
     "isolatedModules": true,
     "noEmit": false
   },
-  "include": [
-    "scripts"
-  ]
+  "include": ["scripts"]
 }
