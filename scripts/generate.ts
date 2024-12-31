@@ -17,10 +17,14 @@ const outputDir = path.resolve(dirname, '../dist')
 const configsDir = path.resolve(dirname, '../configs')
 const integrationDir = path.resolve(configsDir, 'integration')
 
+const getHash = (content: string) => {
+  return crypto.createHash('sha1').update(content).digest('hex')
+}
+
 const getGlobFiles = async (pattern: string) => {
-  const files = await glob(pattern, { cwd: rootDir })
-  // Replace backslashes with forward slashes for if some lunatic uses Windows (me)
-  return files.map((file) => path.normalize(file).replace(/\\/g, '/'))
+  const files = await glob(pattern, { cwd: rootDir, absolute: true })
+  // Replace backslashes with forward slashes in case some lunatic uses Windows (me)
+  return files.map((file) => path.relative(rootDir, file).replace(/\\/g, '/'))
 }
 
 const integrationPolicyFiles = await getGlobFiles(`${integrationDir}/**/*.json`)
@@ -28,10 +32,11 @@ const integrationPolicyFiles = await getGlobFiles(`${integrationDir}/**/*.json`)
 const integrationPolicyConfig: ConfigIntegrationPolicy[] = []
 
 for (const file of integrationPolicyFiles) {
+  console.log('Processing file:', file)
   // Parse the file and validate it against the schema
   const content = await fs.readFile(file, 'utf-8')
   const data = integrationPolicySchema.parse(JSON.parse(content))
-  const hash = crypto.createHash('sha1').update(content).digest('hex')
+  const hash = getHash(content)
 
   integrationPolicyConfig.push({
     ...data,
