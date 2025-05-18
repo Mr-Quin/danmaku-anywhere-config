@@ -1,9 +1,9 @@
+import crypto from 'node:crypto'
 import fs from 'node:fs/promises'
-import url from 'node:url'
 import path from 'node:path'
+import url from 'node:url'
 import { glob } from 'glob'
 import { IntegrationPolicy, integrationPolicySchema } from './schema'
-import crypto from 'node:crypto'
 
 type ConfigIntegrationPolicy = IntegrationPolicy & {
   file: string

@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
-import url from 'node:url'
 import path from 'node:path'
+import url from 'node:url'
 import { glob } from 'glob'
 import { integrationPolicySchema } from './schema'
 
