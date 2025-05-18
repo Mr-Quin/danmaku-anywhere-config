@@ -1,0 +1,86 @@
+{
+  "enabled": false,
+  "author": "Mr-Quin",
+  "description": "Plex",
+  "id": "4a416385-d9b6-4991-9162-6f0f59de5b2a",
+  "integration": {
+    "id": "f03f0da5-e15b-436c-afbb-e0bc117e6e10",
+    "name": "Plex",
+    "policy": {
+      "episode": {
+        "regex": [
+          {
+            "quick": false,
+            "value": "\\d+"
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/a[2]"
+          },
+          {
+            "quick": false,
+            "value": "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/span[3]"
+          }
+        ]
+      },
+      "episodeTitle": {
+        "regex": [
+          {
+            "quick": false,
+            "value": ".+"
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/a[1]"
+          }
+        ]
+      },
+      "options": {
+        "dandanplay": {
+          "useMatchApi": false
+        },
+        "titleOnly": false,
+        "useAI": false
+      },
+      "season": {
+        "regex": [
+          {
+            "quick": false,
+            "value": ".+"
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/a[1]"
+          },
+          {
+            "quick": false,
+            "value": "//*[@id=\"plex\"]//span[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]/span[1]/span[1]"
+          }
+        ]
+      },
+      "title": {
+        "regex": [
+          {
+            "quick": false,
+            "value": ".+"
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": "//*[@id=\"plex\"]//a[contains(@class, \"MetadataPosterTitle-singleLineTitle\")]"
+          }
+        ]
+      }
+    }
+  },
+  "mediaQuery": "video",
+  "name": "plex",
+  "patterns": ["https://app.plex.tv/*"]
+}

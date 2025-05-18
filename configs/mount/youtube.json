@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "author": "Mr-Quin",
+  "id": "77be7f36-091b-4d71-8326-a0d6a70566ef",
+  "mediaQuery": "video",
+  "name": "youtube",
+  "patterns": ["https://www.youtube.com/*"]
+}

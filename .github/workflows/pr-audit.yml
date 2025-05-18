@@ -6,9 +6,10 @@ on:
       - main
     paths:
       - configs/**/*
+      - scripts/**/*
 
 jobs:
-  build:
+  validate: # This job will fail and reject the PR if validation fails
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

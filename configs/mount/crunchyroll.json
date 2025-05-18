@@ -1,0 +1,11 @@
+{
+  "enabled": false,
+  "author": "Mr-Quin",
+  "id": "807ec1d8-85e8-4e8e-b3ff-0c513aea48b6",
+  "mediaQuery": "#player0",
+  "name": "crunchyroll",
+  "patterns": [
+    "https://www.crunchyroll.com/*",
+    "https://static.crunchyroll.com/*"
+  ]
+}

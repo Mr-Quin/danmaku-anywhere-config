@@ -1,34 +1,60 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
-import url from 'node:url'
 import { glob } from 'glob'
-import { integrationPolicySchema } from './schema'
+import { dirs } from './dirs'
+import { CombinedPolicy, zCombinedPolicy } from './schema'
 
-const dirname = path.dirname(url.fileURLToPath(import.meta.url))
-const configsDir = path.resolve(dirname, '../configs')
-const integrationDir = path.resolve(configsDir, 'integration')
+const { mountDir } = dirs
 
-const integrationPolicyFiles = await glob(`${integrationDir}/**/*.json`, {
+const configFiles = await glob(`${mountDir}/**/*.json`, {
   absolute: true,
 })
 
-const integrationValidation = await Promise.all(
-  integrationPolicyFiles.map(async (file) => {
+const validationResults = await Promise.all(
+  configFiles.map(async (file) => {
     const content = await fs.readFile(file, 'utf-8')
     return {
       file,
-      validation: integrationPolicySchema.safeParse(JSON.parse(content)),
+      validation: zCombinedPolicy.safeParse(JSON.parse(content)),
     }
   })
 )
 
-for (const result of integrationValidation) {
+for (const result of validationResults) {
   if (!result.validation.success) {
     console.error('Validation failed for file:', result.file)
     console.error(result.validation.error)
   }
 }
 
-if (integrationValidation.some((result) => !result.validation.success)) {
+if (validationResults.some((result) => !result.validation.success)) {
+  process.exit(1)
+}
+
+// at this point, all files are valid
+const succeeded: CombinedPolicy[] = validationResults
+  .map((result) => {
+    if (result.validation.success) return result.validation.data
+  })
+  .filter((result) => result !== undefined)
+
+const configIds = succeeded.map((result) => {
+  return result.id
+})
+
+// check that all config IDs are unique
+if (new Set(configIds).size !== configIds.length) {
+  console.error('Config IDs are not unique')
+  process.exit(1)
+}
+
+const integrationIds = succeeded
+  .map((result) => {
+    return result.integration?.id
+  })
+  .filter((id) => id !== undefined)
+
+// check that all integration IDs are unique
+if (new Set(integrationIds).size !== integrationIds.length) {
+  console.error('Integration IDs are not unique')
   process.exit(1)
 }

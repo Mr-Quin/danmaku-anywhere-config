@@ -1,25 +1,21 @@
 import crypto from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import url from 'node:url'
 import { glob } from 'glob'
-import { IntegrationPolicy, integrationPolicySchema } from './schema'
+import { dirs } from './dirs'
+import { CombinedPolicy, zCombinedPolicy } from './schema'
 
-type ConfigIntegrationPolicy = IntegrationPolicy & {
+type CombinedPolicyConfig = {
+  config: CombinedPolicy
   file: string
   hash: string
 }
 
-// Read all config files and merge them into one json file, then upload it to the server
-const dirname = path.dirname(url.fileURLToPath(import.meta.url))
-const rootDir = path.resolve(dirname, '../')
-const outputDir = path.resolve(dirname, '../dist')
-const configsDir = path.resolve(dirname, '../configs')
-const integrationDir = path.resolve(configsDir, 'integration')
-
 const getHash = (content: string) => {
   return crypto.createHash('sha1').update(content).digest('hex')
 }
+
+const { rootDir, mountDir, outputDir, configsDir } = dirs
 
 const getGlobFiles = async (pattern: string) => {
   const files = await glob(pattern, { cwd: rootDir, absolute: true })
@@ -27,19 +23,22 @@ const getGlobFiles = async (pattern: string) => {
   return files.map((file) => path.relative(rootDir, file).replace(/\\/g, '/'))
 }
 
-const integrationPolicyFiles = await getGlobFiles(`${integrationDir}/**/*.json`)
+// clear the output directory
+await fs.rm(outputDir, { recursive: true, force: true })
 
-const integrationPolicyConfig: ConfigIntegrationPolicy[] = []
+const configFiles = await getGlobFiles(`${mountDir}/**/*.json`)
 
-for (const file of integrationPolicyFiles) {
+const configs: CombinedPolicyConfig[] = []
+
+for (const file of configFiles) {
   console.log('Processing file:', file)
   // Parse the file and validate it against the schema
   const content = await fs.readFile(file, 'utf-8')
-  const data = integrationPolicySchema.parse(JSON.parse(content))
+  const data = zCombinedPolicy.parse(JSON.parse(content))
   const hash = getHash(content)
 
-  integrationPolicyConfig.push({
-    ...data,
+  configs.push({
+    config: data,
     file,
     hash,
   })
@@ -49,9 +48,7 @@ for (const file of integrationPolicyFiles) {
 const config = {
   time: new Date().getTime(),
   configs: {
-    integration: integrationPolicyConfig.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    ),
+    mount: configs.sort((a, b) => a.config.name.localeCompare(b.config.name)),
   },
 }
 

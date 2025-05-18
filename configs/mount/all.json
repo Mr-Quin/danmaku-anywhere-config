@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "author": "Mr-Quin",
+  "id": "99993f29-5571-41cf-83af-abd449e80a70",
+  "mediaQuery": "video",
+  "name": "all",
+  "patterns": ["https://*/*"]
+}
