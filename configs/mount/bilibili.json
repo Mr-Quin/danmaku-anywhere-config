@@ -1,8 +1,0 @@
-{
-  "enabled": false,
-  "author": "Mr-Quin",
-  "id": "c7d02091-da54-486d-9d55-8a562492ca18",
-  "mediaQuery": "video",
-  "name": "bilibili",
-  "patterns": ["https://www.bilibili.com/*"]
-}

@@ -1,6 +1,7 @@
 {
   "enabled": false,
   "author": "Mr-Quin",
+  "description": "允许在Crunchyroll上装填弹幕",
   "id": "807ec1d8-85e8-4e8e-b3ff-0c513aea48b6",
   "mediaQuery": "#player0",
   "name": "crunchyroll",

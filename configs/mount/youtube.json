@@ -1,6 +1,7 @@
 {
   "enabled": false,
   "author": "Mr-Quin",
+  "description": "允许在Youtube上装填弹幕",
   "id": "77be7f36-091b-4d71-8326-a0d6a70566ef",
   "mediaQuery": "video",
   "name": "youtube",

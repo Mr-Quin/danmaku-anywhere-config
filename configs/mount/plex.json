@@ -1,7 +1,7 @@
 {
   "enabled": false,
   "author": "Mr-Quin",
-  "description": "Plex",
+  "description": "允许在Plex上装填弹幕（可能要改模式）",
   "id": "4a416385-d9b6-4991-9162-6f0f59de5b2a",
   "integration": {
     "id": "f03f0da5-e15b-436c-afbb-e0bc117e6e10",
