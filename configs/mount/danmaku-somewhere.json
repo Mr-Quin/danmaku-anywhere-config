@@ -1,0 +1,78 @@
+{
+  "enabled": false,
+  "author": "Mr-Quin",
+  "description": "在Danmaku Somewhere中装填弹幕",
+  "id": "2dc51505-5919-41d1-9c7b-4dd7f16c1468",
+  "integration": {
+    "id": "67d4ae50-a697-41b0-925c-40937a2fa19a",
+    "name": "danmaku-somewhere",
+    "policy": {
+      "episode": {
+        "regex": [
+          {
+            "quick": false,
+            "value": "\\d+"
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": "//*[@id=\"media-episode\"]"
+          }
+        ]
+      },
+      "episodeTitle": {
+        "regex": [
+          {
+            "quick": false,
+            "value": ""
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": ""
+          }
+        ]
+      },
+      "options": {
+        "dandanplay": {
+          "useMatchApi": false
+        },
+        "titleOnly": false,
+        "useAI": false
+      },
+      "season": {
+        "regex": [
+          {
+            "quick": false,
+            "value": ""
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": ""
+          }
+        ]
+      },
+      "title": {
+        "regex": [
+          {
+            "quick": false,
+            "value": ".*"
+          }
+        ],
+        "selector": [
+          {
+            "quick": false,
+            "value": "//*[@id=\"media-title\"]"
+          }
+        ]
+      }
+    }
+  },
+  "mediaQuery": "video",
+  "name": "danmaku-somewhere",
+  "patterns": ["https://danmaku.weeblify.app/*", "http://localhost:4200/*"]
+}
